@@ -1,13 +1,18 @@
 
 
-const from = 150;
+const moneyFrom = window.data.money.dates.indexOf('2019-01-01');
+const creditFrom = window.data.credit.dates.indexOf('2019-01-01');
 
-const m2 = window.data.money.m2.slice(from)
-const m0 = window.data.money.m0.slice(from)
-const ratio = m2.map((_, i) => m2[i] / m0[i])
+function mul1000(x) {
+  return x * 1000
+}
+
+const m2 = window.data.money.m2.slice(moneyFrom).map(mul1000)
+const m0 = window.data.money.m0.slice(moneyFrom).map(mul1000)
+const credit = window.data.credit.credit.slice(creditFrom)
 
 const data = {
-  labels: window.data.money.dates.slice(from),
+  labels: window.data.money.dates.slice(moneyFrom),
   datasets: [{
     label: 'M2',
     data: m2,
@@ -19,11 +24,11 @@ const data = {
     borderColor: 'rgb(99, 132, 255)',
     hoverOffset: 4
   }, {
-    label: 'Multiplier',
-    data: ratio,
+    label: 'Credit',
+    data: credit,
     borderColor: 'rgb(132, 255, 99)',
     hoverOffset: 4
-  }].slice(0, 2)
+  }]
 };
 
 var myChart = new Chart(
